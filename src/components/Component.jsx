@@ -1,8 +1,6 @@
 import React from "react";
 import Modal from './Modal';
-import Header from './Header';
-import Body from './Body';
-import Footer from './Footer';
+import cn from "classnames";
 
 
 // HTML закрытого состояния:
@@ -37,34 +35,43 @@ export default class Component extends React.Component {
     }
   }
 
-
-  toggle = (e) => {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal,
     });
   }
 
+
   render() {
-    return (
+    const modalClass = cn("modal", {
+      "fade show": this.state.modal,
+      '': !this.state.modal,
+    })
+
+    const dNoneStyle = {
+      display: 'none'
+    }
+    const dShowStyle = {
+      display: 'block'
+    }
+    const style = this.state.modal ? dShowStyle : dNoneStyle;
+
+
+      return (
       <div>
         <button type="button" className="modal-open-button btn btn-danger" onClick={this.toggle}>Open</button>
-        <Modal isOpen={this.state.modal}>
+        <Modal modalClass={modalClass} modalStyle={style} isOpen={this.state.modal}>
           <Modal.Header toggle={this.toggle}>Modal title</Modal.Header>
           <Modal.Body>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit
           </Modal.Body>
-          <Modal.Footer>
-            <button type="button" className="modal-close-button btn btn-secondary" onClick={this.toggle}>Cancel</button>
+          <Modal.Footer toggle={this.toggle}>
+            <button type="button" className="modal-close-button btn btn-secondary">Cancel</button>
           </Modal.Footer>
         </Modal>
       </div>
     );
   }
 }
-
-Component.Modal=Modal;
-Component.Header=Header;
-Component.Body=Body;
-Component.Footer=Footer;
 
 
